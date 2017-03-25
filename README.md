@@ -27,3 +27,11 @@ public class MyMaze {
       init();
       generateMaze();
   }
+
+//Mainul
+
+package amaze;
+
+public class amaze {
+    public static void main(String[] args){}
+}
