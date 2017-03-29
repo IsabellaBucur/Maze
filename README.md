@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
-
-public class MyMaze {
+import java.util.Scanner;
+import java.io.*;
+/*public class MyMaze {
   private int dimensionX, dimensionY; // dimension of maze
   private int gridDimensionX, gridDimensionY; // dimension of output grid
   private char[][] grid; // output grid
@@ -26,14 +27,17 @@ public class MyMaze {
       grid = new char[gridDimensionX][gridDimensionY];
       init();
       generateMaze();
-  }
+  }*/
 
 //Mainul
 
 package amaze;
 
 public class amaze {
-    public static void main(String[] args){}
+   public static void main(String[] args){
+   Scanner input = new Scanner(System.in);
+   
+   }
 }
 
 //Clasa Maze-ului
@@ -53,11 +57,25 @@ public class Maze {
 
 
     public Maze(int xLenght, int yLenght) {
+    if (xLenght == 0|| yLenght==0) {
+            throw new IllegalArgumentException("Dimensiunile trebuie sa fie mai mari decat 0");
+        }
         this.xLenght = xLenght;
         this.yLenght = yLenght;
         this.maze = new Cell[xLenght][yLenght];
     }
+    public Maze(Cell[][] maze) {
+        if (maze == null) {
+            throw new NullPointerException("Maze-ul nu poate fi null.");
+        }
+        if (maze.length == 0) {
+            throw new IllegalArgumentException("Dimensiunea maze-ului trebuie sa fie mai mare decat 0");
+        }
 
+        this.maze = maze;
+    }
+
+   
 
     public Cell[][] getMaze() {
         return maze;
