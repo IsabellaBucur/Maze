@@ -112,7 +112,28 @@ public class Maze {
                        {0, 1, 1} };
 
         Maze maze = new Maze(m);
+/*varianta cu citit fisiere
+int[][] m;
+FileReader fr=new Filereader("Maze.txt");
+BufferedReader bf=new BufferedReader(fr);
+String line=bf.readLine();
 
+ //citeste elementele pe linie, despartite prin spatiu
+int row=0;//nr initial de linii
+	while(line!=null)
+	{
+	String[] tokens=line.split(" ");
+		for(int i=0;i<tokens.length;i++)
+		{
+		m[row][i]=Integer.parseInt(tokens[j]);
+		}
+	row++;
+
+	}
+	bf.Close();
+	fr.Close();
+
+*/
         for (Coordinate coord :  maze.solve()) {
             System.out.println(coord.getX() + " : " + coord.getY());
         }
