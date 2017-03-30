@@ -44,39 +44,80 @@ public class amaze {
 
 package amaze;
 
+final class Coordinate {
+    private final int x;
+    private final int y;
+
+    public Coordinate(int x, int y) {
+        this.x = x; 
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+}
+
 public class Maze {
-    private final int xLenght;
-    private final int yLenght;
-    private Cell[][] maze;
 
-    public Maze() {
-        this.xLenght= 13;
-        this.yLenght= 13;
-        this.maze = new Cell[xLenght][yLenght];
-    }
+    private final int[][] maze;
 
-
-    public Maze(int xLenght, int yLenght) {
-    if (xLenght == 0|| yLenght==0) {
-            throw new IllegalArgumentException("Dimensiunile trebuie sa fie mai mari decat 0");
-        }
-        this.xLenght = xLenght;
-        this.yLenght = yLenght;
-        this.maze = new Cell[xLenght][yLenght];
-    }
-    public Maze(Cell[][] maze) {
+    public Maze(int[][] maze) {
         if (maze == null) {
-            throw new NullPointerException("Maze-ul nu poate fi null.");
+            throw new NullPointerException("The input maze cannot be null");
         }
         if (maze.length == 0) {
-            throw new IllegalArgumentException("Dimensiunea maze-ului trebuie sa fie mai mare decat 0");
+            throw new IllegalArgumentException("The size of maze should be greater than 0");
         }
 
         this.maze = maze;
     }
 
-   
+    public List<Coordinate> solve() {
+        return getMazePath(0, 0, new Stack<Coordinate>());
+    }
 
+    private List<Coordinate> getMazePath(int row, int col, Stack<Coordinate> stack) {
+        assert stack != null;
+
+        stack.add(new Coordinate(row, col));
+
+        if ((row == maze.length - 1) && (col == maze[0].length - 1)) {
+            Coordinate[] coordinateArray = stack.toArray(new Coordinate[stack.size()]);
+            return Arrays.asList(coordinateArray);
+        }
+
+        for (int j = col; j < maze[row].length; j++) {
+
+            if ((j + 1) < maze[row].length && maze[row][j + 1] == 1) {
+                return getMazePath(row, j + 1, stack);
+            }
+
+            if ((row + 1) < maze.length && maze[row + 1][col] == 1) {
+                return getMazePath(row + 1, col, stack);
+            }
+        }
+
+        return Collections.emptyList();
+    }
+
+
+    public static void main(String[] args) {
+        int[][] m = {  {1, 0, 0},
+                       {1, 1, 0},
+                       {0, 1, 1} };
+
+        Maze maze = new Maze(m);
+
+        for (Coordinate coord :  maze.solve()) {
+            System.out.println(coord.getX() + " : " + coord.getY());
+        }
+    }
+}
     public Cell[][] getMaze() {
         return maze;
     }
