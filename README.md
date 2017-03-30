@@ -143,12 +143,85 @@ package amaze;
 public class Cell {
     private boolean role;
     private byte noOrVisits;
+    //cell's existing exists north-N  south-S  east-E  west-W
+    //a cell can have more than just 1 exit, therefore we need to check all exit posibilities
+    private bool N;
+    private bool S;
+    private bool E;
+    private bool W;
+    
+ 
+
+
 
     public Cell() {
         this.role = false; //it's a wall
         this.noOrVisits=0;
+	//implicitly cell has no exits until added
+	this.N=false;
+	this.S=false;
+	this.E=false;
+	this.W=false;
     }
-
+    
+  //adds 1 exit to the cell
+  public void addExit(Cell[][] theMaze){
+	System.out.println("Type exit's cardinal point(S/N/E/W)");
+	Scanner s=new Scanner(System.in);
+	char cardinal=s.next().charAt(0);
+	switch(cardinal):{
+		case 'N':{
+		this.N=true;
+		break;
+		}
+		case 'S':{
+		this.S=true;
+		break;
+		}
+		case 'E':{
+		this.E=true;
+		break;
+		}
+		case 'W':{
+		this.W=true;
+		break;
+		}
+		default:{
+		System.out.println("Incorrect input, try again");
+		break;
+		 }
+        }
+	System.out.println("Do you want the exit to be a dead end? TYPE true IF AFFIRMATE, false IF NEGGATIVE");
+	boolean deadEnd=s.nextBoolean();
+	
+//if you want the cell's exit to be a dead end, neighbouring cells' exits won't be altered to allow passage between them
+//otherwise for the exit you just added to the current cell, you will add a corresponding exit to its neighbour to allow passage
+//eg: currentCell has West exit, i's right neighbour will have an East exit
+  if(!deadEnd){	
+    for(int i=0; i<(theMaze.length); i++){
+       for(j=0; j<(theMaze[i].length); j++){
+          if(theMaze[i][j].equals(this)){
+	     if((this.W==true) && (j+1 < (theMaze[i].length))){ //you have to check that currentCell's neighbour is within matrix limits
+	        theMaze[i][j+1].E=true;
+		 return;
+	     }
+	     if((this.E==true) && (j-1 >= 0)){
+	       theMaze[i][j-1].W=true;
+	        return;
+	     }
+	     if((this.S==true) && (i+1 < (theMaze.length))){
+	        theMaze[i+1][j].N=true;
+		  return;
+	     }
+	     if((this.N==true) && (i-1>=0)){
+	       theMaze[i-1][j].S=true;
+	         return;
+	     }
+	  }
+       }
+     }
+  }
+}
     public Cell(boolean role, byte noOrVisits) {
         this.role = role;
         this.noOrVisits = noOrVisits;
