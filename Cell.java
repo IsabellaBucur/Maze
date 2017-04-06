@@ -4,8 +4,6 @@ import java.util.*;
 public class Cell {
     private boolean role;
     private byte noOrVisits;
-    //cell's existing exists north-N  south-S  east-E  west-W
-    //a cell can have more than just 1 exit, therefore we need to check all exit posibilities
     private boolean N;
     private boolean S;
     private boolean E;
